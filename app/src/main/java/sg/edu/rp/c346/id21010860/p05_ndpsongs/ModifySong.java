@@ -47,14 +47,14 @@ public class ModifySong extends AppCompatActivity {
         //initialize the variables with UI here
 
         Intent i = getIntent();
+        data = (Song) i.getSerializableExtra("data");
 
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DBHelper dbh = new DBHelper(ModifySong.this);
-                data.setNoteContent(edTextSinger.getText().toString());
-                data.setNoteContent(edTextTitle.getText().toString());
-                data.setNoteContent(edTextYear.getText().toString());
+                data.setSingers(edTextSinger.getText().toString());
+                data.setTitle(edTextTitle.getText().toString());
 
                 dbh.updateSong(data);
                 dbh.close();
@@ -68,6 +68,14 @@ public class ModifySong extends AppCompatActivity {
 
             }
         });
+//        btncancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DBHelper dbh = new DBHelper(ModifySong.this);
+//                dbh.deleteSong(data.getId());
 
-    }
+
+
+
+            }
 }

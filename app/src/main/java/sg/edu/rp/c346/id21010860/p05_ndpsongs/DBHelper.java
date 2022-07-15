@@ -54,10 +54,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT ");
     }
 
-    public long insertSong(String noteContent) {
+    public long insertSong(String data) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_TITLE, noteContent);
+        values.put(COLUMN_TITLE,data);
         long result = db.insert(TABLE_SONG, null, values);
         db.close();
         Log.d("SQL Insert", "ID:" + result); //id returned, shouldn’t be -1
@@ -77,10 +77,10 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
-                String title = cursor.getString(0);
-                String singer = cursor.getString(0);
-                int year = cursor.getInt(1);
-                int star = cursor.getInt(1);
+                String title = cursor.getString(1);
+                String singer = cursor.getString(2);
+                int year = cursor.getInt(3);
+                int star = cursor.getInt(4);
                 Song song = new Song( title, singer, year,star);
                 songs.add(song);
             } while (cursor.moveToNext());
@@ -95,8 +95,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGER, COLUMN_YEAR,COLUMN_STAR};
-        String condition = COLUMN_TITLE + COLUMN_SINGER + COLUMN_YEAR+  " Like ?";    //? represents the argument below
+        String[] columns = {COLUMN_ID,COLUMN_STAR};
+        String condition = COLUMN_STAR +  " Like ?";    //? represents the argument below
         String[] args = {"%" + keyword + "%"};
         Cursor cursor = db.query(TABLE_SONG, columns, condition, args,
                 null, null, null, null);
@@ -105,9 +105,9 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
-                String singer = cursor.getString(1);
-                int year = cursor.getInt(0);
-                int star = cursor.getInt(0);
+                String singer = cursor.getString(2);
+                int year = cursor.getInt(3);
+                int star = cursor.getInt(4);
                 Song song = new Song( title, singer, year,star);
                 songs.add(song);
             } while (cursor.moveToNext());

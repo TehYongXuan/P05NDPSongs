@@ -27,13 +27,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Song> al;
     ArrayAdapter<Song> aa;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-        btnshowlist.performClick();
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(MainActivity.this);
                 al.clear();
                 // al.addAll(dbh.getAllNotes());
-                String filterText = Integer.toString(radioGroup.getId());
+                String filterText = Integer.toString(rg1.getId())+Integer.toString(rg2.getId())+Integer.toString(rg3.getId())+Integer.toString(rg4.getId())+Integer.toString(rg5.getId());
                 if (filterText.length() == 0) {      //if nothing is in edit text, arraylist will show all
                     al.addAll(dbh.getAllSong());
                 } else {                              //else, it will be filtered
@@ -76,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Song song = al.get(0);
                 Intent i = new Intent(MainActivity.this,
                         ShowSong.class);
-                i.putExtra("data", song);
+                i.putExtra("data",song);
                 startActivity(i);
             }
 
@@ -85,18 +79,18 @@ public class MainActivity extends AppCompatActivity {
         btninsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String data = edTextYear.getText().toString() + edTextTitle.getText().toString() + edTextSinger.getText().toString();
 
+                String data = edTextYear.getText().toString()+ edTextSinger.getText().toString()+edTextTitle.getText().toString();
 
                 DBHelper dbh = new DBHelper(MainActivity.this);
                 long inserted_id = dbh.insertSong(data);
-
-
-                if (inserted_id != -1) {
+                
+//                if (inserted_id1 != -1 && inserted_id2!= -1 && inserted_id3!= -1) {
+                 if (inserted_id != -1){
                     al.clear();
                     al.addAll(dbh.getAllSong());
                     aa.notifyDataSetChanged();
-                    Toast.makeText(MainActivity.this, "Insert successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Insert successful", Toast.LENGTH_LONG).show();
                 }
             }
         });
