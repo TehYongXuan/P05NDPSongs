@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.time.Year;
 import java.util.ArrayList;
 
 import static java.text.NumberFormat.Field.INTEGER;
@@ -19,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_SONG = "song";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_TITLE = "title";
-    private static final String COLUMN_SINGER = "singer";
+    private static final String COLUMN_SINGER = "singers";
     private static final String COLUMN_YEAR = "year";
     private static final String COLUMN_STAR = "star";
 
@@ -30,34 +31,39 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createNoteTableSql = "CREATE TABLE " + TABLE_SONG + "("
+        String createSongTableSql = "CREATE TABLE " + TABLE_SONG + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_TITLE + " TEXT," +
-                COLUMN_SINGER + "TEXT, " +
-                COLUMN_YEAR + "INTEGER," +
-                 COLUMN_STAR + "INTEGER)";
-        db.execSQL(createNoteTableSql);
-        Log.i("info", "created tables");
+                COLUMN_SINGER + "TEXT1," + COLUMN_YEAR +"TEXT2" + COLUMN_STAR + "TEXT3)";
+        db.execSQL(createSongTableSql);
+//        Log.i("info", "created tables");
 
-        //Dummy records, to be inserted when the database is created
-        for (int i = 0; i < 4; i++) {
-            ContentValues values = new ContentValues();
-            values.put(COLUMN_TITLE, "Data number" + i);
-            db.insert(TABLE_SONG, null, values);
-        }
-        Log.i("info", "dummy records inserted");
-
+//        //Dummy records, to be inserted when the database is created
+//        for (int i = 0; i < 4; i++) {
+//            ContentValues values = new ContentValues();
+//            values.put(COLUMN_TITLE, "Data number" + i);
+//            db.insert(TABLE_SONG, null, values);
+//        }
+//        Log.i("info", "dummy records inserted");
+//
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT ");
+        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT1 ");
+        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT2 ");
+        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT3 ");
+
     }
 
-    public long insertSong(String data) {
+    public long insertSong(String title,String singers,String year, int stars ) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_TITLE,data);
+        values.put(COLUMN_TITLE, title);
+        values.put (COLUMN_SINGER,singers);
+        values.put(COLUMN_YEAR, year);
+        values.put (COLUMN_STAR,stars);
         long result = db.insert(TABLE_SONG, null, values);
         db.close();
         Log.d("SQL Insert", "ID:" + result); //id returned, shouldn’t be -1
@@ -70,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGER, COLUMN_YEAR,COLUMN_STAR};
+        String[] columns = {COLUMN_ID, COLUMN_TITLE,COLUMN_SINGER,COLUMN_YEAR,COLUMN_STAR};
         Cursor cursor = db.query(TABLE_SONG, columns, null, null,
                 null, null, null, null);
 
@@ -78,10 +84,10 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
-                String singer = cursor.getString(2);
-                int year = cursor.getInt(3);
-                int star = cursor.getInt(4);
-                Song song = new Song( title, singer, year,star);
+                String singers = cursor.getString(2);
+                String year = cursor.getString(3);
+                Integer stars = cursor.getInt(4);
+                Song song = new Song(id,title, singers, year, stars);
                 songs.add(song);
             } while (cursor.moveToNext());
         }
@@ -95,8 +101,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] columns = {COLUMN_ID,COLUMN_STAR};
-        String condition = COLUMN_STAR +  " Like ?";    //? represents the argument below
+        String[] columns = {COLUMN_ID, COLUMN_TITLE,COLUMN_YEAR,COLUMN_SINGER,COLUMN_STAR};
+        String condition = COLUMN_STAR + " Like ?";    //? represents the argument below
         String[] args = {"%" + keyword + "%"};
         Cursor cursor = db.query(TABLE_SONG, columns, condition, args,
                 null, null, null, null);
@@ -105,23 +111,25 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
-                String singer = cursor.getString(2);
-                int year = cursor.getInt(3);
-                int star = cursor.getInt(4);
-                Song song = new Song( title, singer, year,star);
+                String singers = cursor.getString(2);
+                String year = cursor.getString(3);
+                Integer stars = cursor.getInt(4);
+                Song song = new Song(id, title, singers,year,stars);
                 songs.add(song);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         return songs;
-
     }
 
     public int updateSong(Song data) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, data.getTitle());
+        values.put(COLUMN_SINGER,data.getSingers());
+        values.put(COLUMN_YEAR, data.getYear());
+        values.put(COLUMN_STAR,data.getStars());
         String condition = COLUMN_ID + "= ?";
         String[] args = {String.valueOf(data.getId())};
         int result = db.update(TABLE_SONG, values, condition, args);
