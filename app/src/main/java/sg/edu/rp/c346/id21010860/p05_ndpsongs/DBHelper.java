@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_SINGER = "singers";
     private static final String COLUMN_YEAR = "year";
-    private static final String COLUMN_STAR = "star";
+    private static final String COLUMN_STAR = "stars";
 
 
     public DBHelper(Context context) {
@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String createSongTableSql = "CREATE TABLE " + TABLE_SONG + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_TITLE + " TEXT," +
-                COLUMN_SINGER + "TEXT1," + COLUMN_YEAR +"TEXT2" + COLUMN_STAR + "TEXT3)";
+                COLUMN_SINGER + "TEXT1," + COLUMN_YEAR + "TEXT2" + COLUMN_STAR + "TEXT3)";
         db.execSQL(createSongTableSql);
 //        Log.i("info", "created tables");
 
@@ -50,6 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONG);
         db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT ");
         db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT1 ");
         db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT2 ");
@@ -57,13 +58,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public long insertSong(String title,String singers,String year, int stars ) {
+    public long insertSong(String title, String singers, String year, int stars) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, title);
-        values.put (COLUMN_SINGER,singers);
+        values.put(COLUMN_SINGER, singers);
         values.put(COLUMN_YEAR, year);
-        values.put (COLUMN_STAR,stars);
+        values.put(COLUMN_STAR, stars);
         long result = db.insert(TABLE_SONG, null, values);
         db.close();
         Log.d("SQL Insert", "ID:" + result); //id returned, shouldn’t be -1
@@ -76,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] columns = {COLUMN_ID, COLUMN_TITLE,COLUMN_SINGER,COLUMN_YEAR,COLUMN_STAR};
+        String[] columns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGER, COLUMN_YEAR, COLUMN_STAR};
         Cursor cursor = db.query(TABLE_SONG, columns, null, null,
                 null, null, null, null);
 
@@ -86,8 +87,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 String title = cursor.getString(1);
                 String singers = cursor.getString(2);
                 String year = cursor.getString(3);
-                Integer stars = cursor.getInt(4);
-                Song song = new Song(id,title, singers, year, stars);
+                int stars = cursor.getInt(4);
+                Song song = new Song(id, title, singers, year, stars);
                 songs.add(song);
             } while (cursor.moveToNext());
         }

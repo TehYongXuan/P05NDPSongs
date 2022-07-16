@@ -62,10 +62,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 Intent i = new Intent(MainActivity.this,
                         ShowSong.class);
-
                 startActivity(i);
             }
 
@@ -75,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String data = edTextYear.getText().toString();
-                String data1 = edTextTitle.getText().toString();
-                String data2 = edTextSinger.getText().toString();
+
+                String data = edTextTitle.getText().toString();
+                String data1 = edTextSinger.getText().toString();
+                String data2 = edTextYear.getText().toString();
                 int data3 = radioGroup.getCheckedRadioButtonId();
 
                 DBHelper dbh = new DBHelper(MainActivity.this);

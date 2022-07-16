@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class ModifySong extends AppCompatActivity {
 
 
-    TextView tvTitle, tvSinger, tvYear, tvStars;
+    TextView tvTitle, tvSinger, tvYear, tvStars, tvID;
     EditText edTextSinger, edTextTitle, edTextYear;
     RadioGroup radioGroup;
     RadioButton rg1, rg2, rg3, rg4, rg5;
@@ -29,6 +29,7 @@ public class ModifySong extends AppCompatActivity {
 
         btnupdate = findViewById(R.id.btnupdate);
         btndelete = findViewById(R.id.btndelete);
+        tvID = findViewById(R.id.tvID);
         tvTitle = findViewById(R.id.tvTitle);
         tvSinger = findViewById(R.id.tvSingers);
         tvYear = findViewById(R.id.tvYear);
@@ -49,6 +50,7 @@ public class ModifySong extends AppCompatActivity {
         Intent i = getIntent();
         data = (Song) i.getSerializableExtra("data");
 
+
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,22 +62,18 @@ public class ModifySong extends AppCompatActivity {
                 dbh.close();
             }
         });
-        btndelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DBHelper dbh = new DBHelper(ModifySong.this);
-                dbh.deleteSong(data.getId());
-
-            }
-        });
-//        btncancel.setOnClickListener(new View.OnClickListener() {
+    }
+}
+//        btndelete.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                DBHelper dbh = new DBHelper(ModifySong.this);
 //                dbh.deleteSong(data.getId());
+//
+//
+//                btncancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        DBHelper dbh = new DBHelper(ModifySong.this);
+//                        dbh.deleteSong(data.getId());
 
-
-
-
-            }
-}
