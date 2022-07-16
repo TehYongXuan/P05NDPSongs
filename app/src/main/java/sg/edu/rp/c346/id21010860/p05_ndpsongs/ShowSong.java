@@ -19,6 +19,9 @@ public class ShowSong extends AppCompatActivity {
     ArrayAdapter<Song> aa;
     ArrayList<Song> al;
 
+
+    Song data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,7 @@ public class ShowSong extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, al);
         lv.setAdapter(aa);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -40,3 +44,5 @@ public class ShowSong extends AppCompatActivity {
 
     }
 }
+
+
