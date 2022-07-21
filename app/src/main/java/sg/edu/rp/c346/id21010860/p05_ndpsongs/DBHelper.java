@@ -16,7 +16,7 @@ import static java.text.NumberFormat.Field.INTEGER;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "ndp.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     private static final String TABLE_SONG = "song";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_TITLE = "title";
@@ -24,41 +24,31 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_YEAR = "year";
     private static final String COLUMN_STAR = "stars";
 
-
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createSongTableSql = "CREATE TABLE " + TABLE_SONG + "("
+        String createNoteTableSql = "CREATE TABLE " + TABLE_SONG + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_TITLE + " TEXT," +
-                COLUMN_SINGER + "TEXT1," + COLUMN_YEAR + "TEXT2" + COLUMN_STAR + "TEXT3)";
-        db.execSQL(createSongTableSql);
-//        Log.i("info", "created tables");
+                + COLUMN_TITLE + " TEXT, "
+                + COLUMN_SINGER + " TEXT, "
+                + COLUMN_YEAR + " INTEGER, "
+                + COLUMN_STAR + " INTEGER ) ";
+        db.execSQL(createNoteTableSql);
+        Log.i("info", "Tables have been created");
 
-//        //Dummy records, to be inserted when the database is created
-//        for (int i = 0; i < 4; i++) {
-//            ContentValues values = new ContentValues();
-//            values.put(COLUMN_TITLE, "Data number" + i);
-//            db.insert(TABLE_SONG, null, values);
-//        }
-//        Log.i("info", "dummy records inserted");
-//
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONG);
-        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT ");
-        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT1 ");
-        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT2 ");
-        db.execSQL("ALTER TABLE " + TABLE_SONG + " ADD COLUMN module_name TEXT3 ");
+        onCreate(db);
 
     }
 
-    public long insertSong(String title, String singers, String year, int stars) {
+    public long insertSong(String title, String singers, int year, int stars) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, title);
@@ -86,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 String singers = cursor.getString(2);
-                String year = cursor.getString(3);
+                int year = cursor.getInt(3);
                 int stars = cursor.getInt(4);
                 Song song = new Song(id, title, singers, year, stars);
                 songs.add(song);
@@ -113,8 +103,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 String singers = cursor.getString(2);
-                String year = cursor.getString(3);
-                Integer stars = cursor.getInt(4);
+                int year = cursor.getInt(3);
+                int stars = cursor.getInt(4);
                 Song song = new Song(id, title, singers,year,stars);
                 songs.add(song);
             } while (cursor.moveToNext());
@@ -146,5 +136,4 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
-
 }

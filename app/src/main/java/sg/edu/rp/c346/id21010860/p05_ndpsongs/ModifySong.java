@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ public class ModifySong extends AppCompatActivity {
 
         btnupdate = findViewById(R.id.btnupdate);
         btndelete = findViewById(R.id.btndelete);
+        btncancel = findViewById(R.id.btncancel);
         tvID = findViewById(R.id.tvID);
         tvTitle = findViewById(R.id.tvTitle);
         tvSinger = findViewById(R.id.tvSingers);
@@ -49,6 +51,8 @@ public class ModifySong extends AppCompatActivity {
 
         Intent i = getIntent();
         data = (Song) i.getSerializableExtra("data");
+        tvID.setText("Song ID : " +data.getId()+"");
+
 
 
         btnupdate.setOnClickListener(new View.OnClickListener() {
@@ -57,24 +61,53 @@ public class ModifySong extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(ModifySong.this);
                 data.setSingers(edTextSinger.getText().toString());
                 data.setTitle(edTextTitle.getText().toString());
+                data.setYear(Integer.parseInt(edTextYear.getText().toString()));
+                int rg = 1;
+
+//                switch (radioGroup.getCheckedRadioButtonId()) {
+//                    case R.id.rg1:
+//                        rg = 1;
+//                        break;
+//                    case R.id.rg2:
+//                        rg = 2;
+//                        break;
+//                    case R.id.rg3:
+//                        rg = 3;
+//                        break;
+//                    case R.id.rg4:
+//                        rg = 4;
+//                        break;
+//                    case R.id.rg5:
+//                        rg = 5;
+//                        break;
+//                }
+
+                data.setStars(rg);
 
                 dbh.updateSong(data);
                 dbh.close();
+                finish();
+            }
+        });
+
+        btndelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBHelper dbh = new DBHelper(ModifySong.this);
+                int id = data.getId();
+                Log.d("song id: ", id+"");
+
+                dbh.deleteSong(data.getId());
+                finish();
+
+            }
+        });
+
+        btncancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
 }
-//        btndelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DBHelper dbh = new DBHelper(ModifySong.this);
-//                dbh.deleteSong(data.getId());
-//
-//
-//                btncancel.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        DBHelper dbh = new DBHelper(ModifySong.this);
-//                        dbh.deleteSong(data.getId());
-//
-//

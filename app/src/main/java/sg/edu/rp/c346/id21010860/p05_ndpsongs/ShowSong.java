@@ -21,6 +21,7 @@ public class ShowSong extends AppCompatActivity {
     ArrayAdapter<Song> aa;
     ArrayList<Song> al;
     Song data;
+    CustomAdapter ca;
 
 
     @Override
@@ -37,22 +38,26 @@ public class ShowSong extends AppCompatActivity {
         al = new ArrayList<Song>();
         aa = new ArrayAdapter<Song>(this,
                 android.R.layout.simple_list_item_1, al);
-        lv.setAdapter(aa);
+//        lv.setAdapter(aa);
 
-lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long identity) {
-        Song song = al.get(position);
-        Intent i = new Intent(ShowSong.this, ModifySong.class);
-        i.putExtra("data",data);
-        startActivity(i);
-    }
-});
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long identity) {
+                Song song = al.get(position);
+                Intent i = new Intent(ShowSong.this, ModifySong.class);
+                i.putExtra("data", song);
+                startActivity(i);
+                ca = new CustomAdapter(ShowSong.this, R.layout.row, al);
+
+                lv.setAdapter(ca);
+            }
+        });
 
         btnshowsong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DBHelper dbh = new DBHelper(ShowSong.this);
+
 
                 dbh.close();
             }
@@ -76,7 +81,7 @@ lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
     protected void onStop() {
         super.onStop();
 
-      finish();
+        finish();
 
     }
 }

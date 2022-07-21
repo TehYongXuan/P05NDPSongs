@@ -74,13 +74,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                String data = edTextTitle.getText().toString();
-                String data1 = edTextSinger.getText().toString();
-                String data2 = edTextYear.getText().toString();
-                int data3 = radioGroup.getCheckedRadioButtonId();
-
                 DBHelper dbh = new DBHelper(MainActivity.this);
-                long inserted_id = dbh.insertSong(data,data1,data2,data3);
+
+                String title = edTextTitle.getText().toString();
+                String singer = edTextSinger.getText().toString();
+                int year = Integer.parseInt(edTextYear.getText().toString());
+                int rg = 1;
+
+                switch (radioGroup.getCheckedRadioButtonId()) {
+                    case R.id.rg1:
+                        rg = 1;
+                        break;
+                    case R.id.rg2:
+                        rg = 2;
+                        break;
+                    case R.id.rg3:
+                        rg = 3;
+                        break;
+                    case R.id.rg4:
+                        rg = 4;
+                        break;
+                    case R.id.rg5:
+                        rg = 5;
+                         break;
+                }
+
+                long inserted_id = dbh.insertSong(title,singer,year,rg);
 
                  if (inserted_id != -1){
                     al.clear();

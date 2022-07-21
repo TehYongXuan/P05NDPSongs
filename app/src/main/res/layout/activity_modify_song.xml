@@ -15,27 +15,26 @@
         android:text="Song ID"
         android:textColor="#EA0B0B" />
 
-    <EditText
-        android:id="@+id/edtxtID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="3"
-        android:inputType="textPersonName" />
-
     <TextView
         android:id="@+id/tvsongtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Song Title"
         android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/tvtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textColor="#FFFFFF"/>
 
     <EditText
         android:id="@+id/edtxtsongtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/tvsingers"
@@ -49,7 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/tvyear"
@@ -63,7 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/tvstars"
