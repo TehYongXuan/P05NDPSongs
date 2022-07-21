@@ -86,7 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return songs;
     }
-
+//
     public ArrayList<Song> getAllSongs(String keyword) {
         ArrayList<Song> songs = new ArrayList<Song>();
 
