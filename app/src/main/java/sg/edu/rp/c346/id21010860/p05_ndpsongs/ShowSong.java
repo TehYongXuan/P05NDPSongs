@@ -39,7 +39,9 @@ public class ShowSong extends AppCompatActivity {
         aa = new ArrayAdapter<Song>(this,
                 android.R.layout.simple_list_item_1, al);
 //        lv.setAdapter(aa);
+        ca = new CustomAdapter(ShowSong.this, R.layout.row, al);
 
+        lv.setAdapter(ca);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long identity) {
@@ -47,9 +49,7 @@ public class ShowSong extends AppCompatActivity {
                 Intent i = new Intent(ShowSong.this, ModifySong.class);
                 i.putExtra("data", song);
                 startActivity(i);
-                ca = new CustomAdapter(ShowSong.this, R.layout.row, al);
 
-                lv.setAdapter(ca);
             }
         });
 

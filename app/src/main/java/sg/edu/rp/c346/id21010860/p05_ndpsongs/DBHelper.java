@@ -1,6 +1,5 @@
 package sg.edu.rp.c346.id21010860.p05_ndpsongs;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -86,33 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return songs;
     }
-//
-    public ArrayList<Song> getAllSongs(String keyword) {
-        ArrayList<Song> songs = new ArrayList<Song>();
 
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String[] columns = {COLUMN_ID, COLUMN_TITLE,COLUMN_YEAR,COLUMN_SINGER,COLUMN_STAR};
-        String condition = COLUMN_STAR + " Like ?";    //? represents the argument below
-        String[] args = {"%" + keyword + "%"};
-        Cursor cursor = db.query(TABLE_SONG, columns, condition, args,
-                null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(0);
-                String title = cursor.getString(1);
-                String singers = cursor.getString(2);
-                int year = cursor.getInt(3);
-                int stars = cursor.getInt(4);
-                Song song = new Song(id, title, singers,year,stars);
-                songs.add(song);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return songs;
-    }
 
     public int updateSong(Song data) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -135,5 +108,33 @@ public class DBHelper extends SQLiteOpenHelper {
         int result = db.delete(TABLE_SONG, condition, args);
         db.close();
         return result;
+    }
+
+
+    public ArrayList<Song> getAll5starSongs(String keyword) {
+        ArrayList<Song> songs = new ArrayList<Song>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {COLUMN_ID, COLUMN_TITLE,COLUMN_YEAR,COLUMN_SINGER,COLUMN_STAR};
+        String condition = COLUMN_STAR + " Like ?";    //? represents the argument below
+        String[] args = {"%" + 5 + "%"};
+        Cursor cursor = db.query(TABLE_SONG, columns, condition, args,
+                null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String singers = cursor.getString(2);
+                int year = cursor.getInt(3);
+                int stars = cursor.getInt(4);
+                Song song = new Song(id, title, singers,year,stars);
+                songs.add(song);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return songs;
     }
 }

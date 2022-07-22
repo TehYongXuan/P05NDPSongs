@@ -17,8 +17,8 @@ public class ModifySong extends AppCompatActivity {
 
     TextView tvTitle, tvSinger, tvYear, tvStars, tvID;
     EditText edTextSinger, edTextTitle, edTextYear;
-    RadioGroup radioGroup;
-    RadioButton rg1, rg2, rg3, rg4, rg5;
+    RadioGroup radioGroup,radiogroupedit;
+    RadioButton rg0,rg1, rg2, rg3, rg4, rg5;
     Button btnupdate, btndelete, btncancel;
     Song data;
 
@@ -36,10 +36,12 @@ public class ModifySong extends AppCompatActivity {
         tvSinger = findViewById(R.id.tvSingers);
         tvYear = findViewById(R.id.tvYear);
         tvStars = findViewById(R.id.tvStars);
-        edTextSinger = findViewById(R.id.edTextSingers);
-        edTextTitle = findViewById(R.id.edTextTitle);
-        edTextYear = findViewById(R.id.edtextyear);
-        radioGroup = findViewById(R.id.radioGroup);
+        edTextSinger = findViewById(R.id.edtxtsingers);
+        edTextTitle = findViewById(R.id.edtxtsongtitle);
+        edTextYear = findViewById(R.id.edtxtyear);
+        radioGroup = findViewById(R.id.radioGroupEdit);
+
+
         rg1 = findViewById(R.id.rg1);
         rg2 = findViewById(R.id.rg2);
         rg3 = findViewById(R.id.rg3);
@@ -62,7 +64,14 @@ public class ModifySong extends AppCompatActivity {
                 data.setSingers(edTextSinger.getText().toString());
                 data.setTitle(edTextTitle.getText().toString());
                 data.setYear(Integer.parseInt(edTextYear.getText().toString()));
-                int rg = 1;
+                int rg = radioGroup.getCheckedRadioButtonId();
+                rg0 = findViewById(rg);
+               int rate = Integer.parseInt(rg0.getText().toString());
+                Log.d("result", rg0+"");
+                Log.d("result", rg0+);
+
+
+
 
 //                switch (radioGroup.getCheckedRadioButtonId()) {
 //                    case R.id.rg1:
@@ -82,7 +91,7 @@ public class ModifySong extends AppCompatActivity {
 //                        break;
 //                }
 
-                data.setStars(rg);
+                data.setStars(rate);
 
                 dbh.updateSong(data);
                 dbh.close();

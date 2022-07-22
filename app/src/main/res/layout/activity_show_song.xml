@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".ShowSong"
+    android:background="@drawable/singapore_skyscrapers_marina_bay_sands_evening_4k_es_1080x1920"
+
    >
 
     <Button
@@ -15,9 +17,6 @@
         android:layout_margin="5dp"
         android:text="SHOW ALL SONGS WITH 5 STARS" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="27dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +27,9 @@
             android:id="@+id/lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp" >
+
+        </ListView>
     </LinearLayout>
 
 </LinearLayout>

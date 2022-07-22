@@ -33,10 +33,10 @@ public class CustomAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(layout_id, parent, false);
 
         // Obtain the UI components and do the necessary binding
-        TextView tvTitle = rowView.findViewById(R.id.tvTitle);
-        TextView tvYear = rowView.findViewById(R.id.tvYear);
-        TextView tvStars = rowView.findViewById(R.id.tvStars);
-        TextView tvSingers = rowView.findViewById(R.id.tvSingers);
+        TextView tvTitle = rowView.findViewById(R.id.tvT);
+        TextView tvYear = rowView.findViewById(R.id.tvY);
+        TextView tvStars = rowView.findViewById(R.id.tvST);
+        TextView tvSingers = rowView.findViewById(R.id.tvSi);
 
 
         // Obtain the Android Version information based on the position
@@ -44,25 +44,25 @@ public class CustomAdapter extends ArrayAdapter {
 
         // Set values to the TextView to display the corresponding information
         tvTitle.setText(currentVersion.getTitle());
-        tvYear.setText(currentVersion.getYear());
+        tvYear.setText(currentVersion.getYear()+"");
         tvSingers.setText(currentVersion.getSingers());
 
 
         String star = "";
         if (currentVersion.getStars()==1) {
-            star = "*";
+            star = " * ";
         }
             else if(currentVersion.getStars() == 2){
-                star = "**";
+                star = " * * ";
             }
         else if(currentVersion.getStars() == 3){
-            star = "***";
+            star = " * * * ";
         }
         else if(currentVersion.getStars() == 4){
-            star = "****";
+            star = " * * * * ";
         }
         else
-            star = "*****";
+            star = " * * * * * ";
         tvStars.setText(star);
 
         return rowView;

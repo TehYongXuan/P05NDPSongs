@@ -85,7 +85,7 @@
         android:orientation="horizontal">
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/radioGroupEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
